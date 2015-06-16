@@ -1,0 +1,72 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	<meta charset="UTF-8" name="" content="">
+	<title>随机数</title>
+</head>
+<body>
+<div>
+	<p id="random"></p>
+	<input type="text" id="check">
+	<button onclick = "check()">验证</button>
+	<button onclick = "get()">看不清</button>
+</div>
+
+<script>
+	//function getNumber() { return Math.floor(Math.random()*10); }
+	function getRandom(test) {
+		var num = "1234567890";
+		var letter = "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM";
+		//4E00-9FBF,蛋疼,简繁都有
+		var hanzi = Math.floor(Math.random() * (40895 - 19968)) + 19968;
+		//var zhong = "\\u"+hanzi.toString(16);
+		//zhong = eval('"'+zhong+'"');
+		var zhong = eval('"' + "\\u" + hanzi.toString(16) + '"');
+		//用 utf字符
+		switch (test) {
+			case 1: return num.charAt(Math.floor(Math.random() * num.length));
+			case 2: return letter.charAt(Math.floor(Math.random() * letter.length));
+			case 3: return zhong;
+		}
+	};
+	function get() {
+		var p = document.getElementById("random");
+		var six = [];
+		var num1 = 0;//2
+		var num2 = 0;//3
+		var num3 = 0;//1
+		while (six.length < 6) {
+			var temp = Math.ceil(Math.random() * 3);
+			switch (temp) {
+				case 1:
+					if (num1 < 2) six.push(1);
+					num1++;
+					break;
+				case 2:
+					if (num2 < 3) six.push(2);
+					num2++;
+					break;
+				case 3:
+					if (num3 < 1) six.push(3);
+					num3++;
+					break;
+			}
+		};
+		var txt = "";
+		for (var x in six) txt = txt + "" + getRandom(six[x]);
+		p.textContent = txt;
+	};
+	function check() {
+		var p = document.getElementById("random");
+		var check = document.getElementById("check");
+		if(p.textContent == check.value )  alert("正确");
+		else {
+			alert("错误");
+			get();
+		}
+	}
+	window.onload = get();
+
+</script>
+</body>
+</html>

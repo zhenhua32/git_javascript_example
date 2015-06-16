@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	<meta charset="UTF-8" name="author" content="tzh">
+	<title>三行棋</title>
+	<style>
+		.cell {
+			float: left;
+			width: 50px;
+			height: 50px;
+			border: 1px solid #aaa;
+		}
+		.row { 
+			clear: both;
+		}
+		.operation {
+			clear: both;
+		}
+	</style>
+	
+</head>
+<body >
+<h1>测试三步棋</h1>
+<div id="chess" class="chess" >
+<div class="row">
+<div class="cell"></div>
+<div class="cell"></div>
+<div class="cell"></div>
+<div class="cell"></div>
+</div>
+
+<div class="row">
+<div class="cell"></div>
+<div class="cell"></div>
+<div class="cell"></div>
+<div class="cell"></div>
+</div>
+
+<div class="row">
+<div class="cell"></div>
+<div class="cell"></div>
+<div class="cell"></div>
+<div class="cell"></div>
+</div>
+
+<div class="row">
+<div class="cell"></div>
+<div class="cell"></div>
+<div class="cell"></div>
+<div class="cell"></div>
+</div>
+
+</div>
+<div class="operation">
+<button onclick="myclear()">清除</button>
+<!-- <button onclick="ai()"></button> -->
+<p id="test"></p>
+<p>AI有限,希望下手不要太重</p>
+<p>当横竖或对角线有三颗棋子同色时获得胜利</p>
+</div>
+
+<!--一定要把脚本放在最后,因为是匿名函数,一遇到就运行了,顺序非常重要#009688是rgb(0, 150, 136)##rgb(255, 255, 255)-->
+<!--#2196f3是rgb(33, 150, 243) -->
+<script>
+	Array.prototype.contain = function( number) {
+		var test = false;
+		for(var i = 0;i<this.length;i++) {
+			if(this[i] === number)
+				test = true;
+		}
+		return test;
+	}
+	function myclick() {
+		if( this.style.backgroundColor.toString() == "rgb(255, 255, 255)") {
+			this.style.backgroundColor = "#2196f3";
+			if( success(0) ) {
+				document.getElementById("test").textContent = "恭喜,你赢了";
+			}
+			ai();
+			if( success(1) ) {
+				document.getElementById("test").textContent = "哈哈,你输了";
+			}
+		}
+		else alert("点错了");
+	};
+	(function set() {
+		var cell = document. getElementsByClassName("cell");
+		for(var i = 0;i<cell.length;i++) {
+			cell[i].addEventListener("click",myclick);
+			cell[i].style.backgroundColor = "#fff";
+		}
+	}) ();
+	function myclear() {
+		document.getElementById("test").textContent = "";
+		var cell = document. getElementsByClassName("cell");
+		for(var i = 0;i<cell.length;i++) {
+			cell[i].style.backgroundColor = "#fff";}
+	};
+	function ai() {
+		var cell = document. getElementsByClassName("cell");
+		var play = get().player;
+		var machine = get().machine;
+		for(var i=0;i<15;i=i+4) {
+			if( play.contain(i) && play.contain(i+1) ) {
+				if( cell[2+i].style.backgroundColor.toString() == "rgb(255, 255, 255)") {
+					cell[2+i].style.backgroundColor = "rgb(0, 150, 136)";
+					return ;}
+			}
+			if( play.contain(i) && play.contain(i+2) ) {
+				if( cell[1+i].style.backgroundColor.toString() == "rgb(255, 255, 255)") {
+					cell[1+i].style.backgroundColor= "rgb(0, 150, 136)";
+					return ;}
+			}
+			if( play.contain(i+1) && play.contain(i+3) ) {
+				if( cell[2+i].style.backgroundColor.toString() == "rgb(255, 255, 255)") {
+					cell[2+i].style.backgroundColor = "rgb(0, 150, 136)";
+					return ;}
+			}
+			if( play.contain(i+2) && play.contain(i+3) ) {
+				if( cell[1+i].style.backgroundColor.toString() == "rgb(255, 255, 255)") {
+					cell[1+i].style.backgroundColor = "rgb(0, 150, 136)";
+					return ;}
+			}
+			//1,2的策略不一样,因为不是唯一的,还有一种是两边都空的,被这里默认为选左了,其实应该有更好的策略
+			if( play.contain(i+1) && play.contain(i+2) ) {
+				if( cell[i].style.backgroundColor.toString() == "rgb(255, 255, 255)") {
+					cell[i].style.backgroundColor = "rgb(0, 150, 136)";
+					return ;}
+				if( cell[3+i].style.backgroundColor.toString() == "rgb(255, 255, 255)") {
+					cell[3+i].style.backgroundColor = "rgb(0, 150, 136)";
+					return ;}
+			}
+		}
+		for(var i=0;i<4;i=i+1) {
+			if( play.contain(i) && play.contain(i+4) ) {
+				if( cell[8+i].style.backgroundColor.toString() == "rgb(255, 255, 255)") {
+					cell[8+i].style.backgroundColor = "rgb(0, 150, 136)";
+					return ;}
+			}
+			if( play.contain(i) && play.contain(i+8) ) {
+				if( cell[4+i].style.backgroundColor.toString() == "rgb(255, 255, 255)") {
+					cell[4+i].style.backgroundColor = "rgb(0, 150, 136)";
+					return ;}
+			}
+			if( play.contain(i+4) && play.contain(i+8) ) {
+				if( cell[i].style.backgroundColor.toString() == "rgb(255, 255, 255)") {
+					cell[i].style.backgroundColor = "rgb(0, 150, 136)";
+					return ;}
+				if( cell[12+i].style.backgroundColor.toString() == "rgb(255, 255, 255)") {
+					cell[12+i].style.backgroundColor = "rgb(0, 150, 136)";
+					return ;}
+			}
+			if( play.contain(i+4) && play.contain(i+12) ) {
+				if( cell[8+i].style.backgroundColor.toString() == "rgb(255, 255, 255)") {
+					cell[8+i].style.backgroundColor = "rgb(0, 150, 136)";
+					return ;}
+			}
+			if( play.contain(i+8) && play.contain(i+12) ) {
+				if( cell[4+i].style.backgroundColor.toString() == "rgb(255, 255, 255)") {
+					cell[4+i].style.backgroundColor = "rgb(0, 150, 136)";
+					return ;}
+			}
+		}
+		if( play.contain(0) && play.contain(5) ) {
+				if( cell[10].style.backgroundColor.toString() == "rgb(255, 255, 255)") {
+					cell[10].style.backgroundColor = "rgb(0, 150, 136)";
+					return ;}
+		}
+		if( play.contain(0) && play.contain(10) ) {
+				if( cell[5].style.backgroundColor.toString() == "rgb(255, 255, 255)") {
+					cell[5].style.backgroundColor = "rgb(0, 150, 136)";
+					return ;}
+		}
+		if( play.contain(5) && play.contain(10) ) {
+				if( cell[0].style.backgroundColor.toString() == "rgb(255, 255, 255)") {
+					cell[0].style.backgroundColor = "rgb(0, 150, 136)";
+					return ;}
+				if( cell[15].style.backgroundColor.toString() == "rgb(255, 255, 255)") {
+					cell[15].style.backgroundColor = "rgb(0, 150, 136)";
+					return ;}
+		}
+		if( play.contain(5) && play.contain(15) ) {
+				if( cell[10].style.backgroundColor.toString() == "rgb(255, 255, 255)") {
+					cell[10].style.backgroundColor = "rgb(0, 150, 136)";
+					return ;}
+		}
+		if( play.contain(10) && play.contain(15) ) {
+				if( cell[5].style.backgroundColor.toString() == "rgb(255, 255, 255)") {
+					cell[5].style.backgroundColor = "rgb(0, 150, 136)";
+					return ;}
+		}
+		if( play.contain(3) && play.contain(6) ) {
+				if( cell[9].style.backgroundColor.toString() == "rgb(255, 255, 255)") {
+					cell[9].style.backgroundColor = "rgb(0, 150, 136)";
+					return ;}
+		}
+		if( play.contain(3) && play.contain(9) ) {
+				if( cell[6].style.backgroundColor.toString() == "rgb(255, 255, 255)") {
+					cell[6].style.backgroundColor = "rgb(0, 150, 136)";
+					return ;}
+		}
+		if( play.contain(6) && play.contain(9) ) {
+				if( cell[3].style.backgroundColor.toString() == "rgb(255, 255, 255)") {
+					cell[3].style.backgroundColor = "rgb(0, 150, 136)";
+					return ;}
+				if( cell[12].style.backgroundColor.toString() == "rgb(255, 255, 255)") {
+					cell[12].style.backgroundColor = "rgb(0, 150, 136)";
+					return ;}
+		}
+		if( play.contain(6) && play.contain(12) ) {
+				if( cell[9].style.backgroundColor.toString() == "rgb(255, 255, 255)") {
+					cell[9].style.backgroundColor = "rgb(0, 150, 136)";
+					return ;}
+		}
+		if( play.contain(9) && play.contain(12) ) {
+				if( cell[6].style.backgroundColor.toString() == "rgb(255, 255, 255)") {
+					cell[6].style.backgroundColor = "rgb(0, 150, 136)";
+					return ;}
+		}
+		for(var i =0;i<cell.length;i++) {
+			if( cell[i].style.backgroundColor.toString() == "rgb(255, 255, 255)") { //fuck,这里在,和255之间可是有空格的
+					cell[i].style.backgroundColor = "rgb(0, 150, 136)";
+					return ;}
+		}
+		document.getElementById("test").textContent = "error";
+		return ;
+	};
+	function get() {
+		var cell = document. getElementsByClassName("cell");
+		var player = [];
+		for(var i = 0; i<cell.length; i++) {
+			if( cell[i].style.backgroundColor.toString() === "rgb(33, 150, 243)") //注意这里,是人
+				player.push( i );
+		}
+		var machine = [];
+		for(var  i = 0; i<cell.length; i++) {
+			if( cell[i].style.backgroundColor.toString() === "rgb(0, 150, 136)") //注意这里,是机器
+				machine.push( i );
+		}
+		var a = {
+			"player": player.sort( function(a,b){return a-b} ),
+			"machine": machine.sort( function(a,b){return a-b} ),
+		}
+		return a;
+	};
+	function success(num) {
+		if(num===0)
+			var play = get().player;
+		if(num===1)
+			var play = get().machine;
+		for(var i=0;i<15;i=i+4) {
+			if( play.contain(i) && play.contain(i+1) &&play.contain(i+2) )
+				return true;
+			if( play.contain(i+1) && play.contain(i+2) &&play.contain(i+3) )
+				return true;
+		}
+		for(var i=0;i<4;i=i+1) {
+			if( play.contain(i) && play.contain(i+4) &&play.contain(i+8) )
+				return true;
+			if( play.contain(i+4) && play.contain(i+8) &&play.contain(i+12) )
+				return true;
+		}
+		if( play.contain(0) && play.contain(5) &&play.contain(10) )
+			return true;
+		if( play.contain(5) && play.contain(10) &&play.contain(15) )
+			return true;
+		if( play.contain(3) && play.contain(6) &&play.contain(9) )
+			return true;
+		if( play.contain(6) && play.contain(9) &&play.contain(12) )
+			return true;
+		return false;
+	};
+</script>
+</body>
+</html>

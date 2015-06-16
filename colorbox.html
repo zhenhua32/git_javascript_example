@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	<meta charset="UTF-8" name="" content="">
+	<title>colorbox</title>
+</head>
+<body>
+
+<script>
+window.onload=function() {
+	for( var i=0;i<16*16*16;i++) {
+		var divbox = document.createElement("div");
+		divbox.style.float = "left";
+		divbox.style.width = "50px";
+		divbox.style.height = "25px";
+		var temp = i.toString(16);
+		if(temp.length==0)
+			temp="000";
+		if(temp.length==1)
+			temp="00"+temp;
+		if(temp.length==2)
+			temp="0"+temp;
+		var tempcolor = '#'+temp;
+		divbox.style.backgroundColor = tempcolor;
+		divbox.style.color="#fff";
+		divbox.appendChild(document.createTextNode(temp));
+		document.body.appendChild(divbox);
+	}
+};
+</script>
+</body>
+</html>

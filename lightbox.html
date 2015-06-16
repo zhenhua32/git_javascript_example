@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	<meta charset="UTF-8" name="" content="">
+	<title>lightbox</title>
+	<style>
+		#hello {
+			width: 240px;
+		}
+		.black_overlay {
+			display: none;
+			position: absolute;
+			top: 0%;
+			left: 0%;
+			width: 100%;
+			height: 100%;
+			background-color: black;
+			z-index: 1;
+			opacity: 0.7;
+		}
+		.white_contet {
+			display: none;
+			position: absolute;
+			top: 10%;
+			left: 10%;
+			padding: 16px;
+			border: 16px solid orange;
+			background-color: white;
+			z-index: 2;
+			overflow: auto;
+		}
+	</style>
+	<script>
+		function myclick() {
+			document.getElementById('light').style.display = 'block';
+			document.getElementById('fade').style.display = 'block';
+			var getsrc = event.srcElement;
+			var myimage = document.createElement('img');
+			myimage.setAttribute('src' , getsrc.src );
+			myimage.setAttribute('id', 'myimg');
+			myimage.style.display = 'block';
+			document.getElementById('light').appendChild(myimage);
+		}
+		function myclose() {
+			document.getElementById('light').style.display = 'none';
+			document.getElementById('fade').style.display = 'none';
+			document.getElementById('light').removeChild( document.getElementById('myimg') );
+		}
+	</script>
+</head>
+<body>
+<img src="ali.png"  id="hello" onclick="myclick()">
+<p>观看效果,请点击图片</p>
+<!--这里实现的是点击图片传递的效果,实际上可以做成点击缩略图传递大图,也就说使用两张图片,或许可以编辑地址字符串 -->
+<div id="light" class="white_contet" >
+这里是lightbox弹出框的内容
+<a href="JavaScript:void(0)" onclick="myclose()" >关闭</a>
+</div>
+<div id="fade" class="black_overlay"  onclick="myclose()">
+</div>
+</body>
+
+</html>

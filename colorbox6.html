@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	<meta charset="UTF-8" name="" content="">
+	<title>colorbox</title>
+</head>
+<body>
+
+<script>
+//内存不够,根本用不了,16777216种颜色岂是能够随意渲染的
+window.onload=function() {
+	var divs = document.createDocumentFragment();
+	for( var i=0;i<16*16*16*16*16*16;i++) {
+		var divbox = document.createElement("div");
+		divbox.style.float = "left";
+		divbox.style.width = "70px";
+		divbox.style.height = "25px";
+		var temp = i.toString(16);
+		if(temp.length==0)
+			temp="000000";
+		if(temp.length==1)
+			temp="00000"+temp;
+		if(temp.length==2)
+			temp="0000"+temp;
+		if(temp.length==3)
+			temp="000"+temp;
+		if(temp.length==4)
+			temp="00"+temp;
+		if(temp.length==5)
+			temp="0"+temp;
+		var tempcolor = '#'+temp;
+		divbox.style.backgroundColor = tempcolor;
+		divbox.style.color="#fff";
+		divbox.appendChild(document.createTextNode(temp));
+		//divs.appendChild(divbox);
+		document.body.appendChild(divbox);
+	}
+	document.body.appendChild(divs);
+};
+</script>
+</body>
+</html>
