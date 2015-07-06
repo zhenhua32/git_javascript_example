@@ -1,2 +1,2 @@
 # git_javascript_example
-这里是一些我学习JavaScript中的小例子,仅供参考,希望大神们指出不足之处
+这里是一些我学习JavaScript中的小例子,仅供参考,希望一起进步
